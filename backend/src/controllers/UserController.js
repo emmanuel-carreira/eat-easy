@@ -25,18 +25,20 @@ module.exports = {
       return response.status(204).send();
     },
 
-    async delete (request, response) {
-      const { id } = request.params;
+    async delete (request, response) { 
+      const { id } = request.params; 
 
-      try { 
+      try {
         await connection('user').where('id', '=' , id).update({
           active : false
-        }); 
-      } catch (exception) {
+        }).then(rows => {
+          if (rows == 0) throw Error('Not found.');
+        });
+      } catch (exception) { 
         console.log('Exception: ' + exception);
         return response.status(400).send();
       }
-        
+
       return response.status(204).send();
     }
 }   
