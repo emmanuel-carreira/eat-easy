@@ -12,6 +12,19 @@ describe('User', () => {
     await connection.destroy();
   });
 
+  it('Create a new User Exception', async() => {
+    const response = await request(app)
+    .post('/createUser')
+    .send({
+      username: "",
+      password: "#lisiarc",
+      email: "lisiarc@hotmail.com",
+      active: true
+    });
+
+    expect(response.status).toBe(400);
+  });
+  
   it('Create a new User', async() => {
     const response = await request(app)
     .post('/createUser')
@@ -25,6 +38,25 @@ describe('User', () => {
     expect(response.status).toBe(200);
   });
 
+  it('Get all the users', async() => {
+    const response = await request(app)
+    .get('/getUsers')
+    .send();
+    
+    const firstUser = response.data[0];
+    expect(firstUser.password).toBe('#lisiarc');
+    
+    expect(response.status).toBe(200);
+  });
+  
+  it('Delete the first User Exception', async() => {
+    const response = await request(app)
+    .delete('/deleteUser/lisiarc')
+    .send();
+
+    expect(response.status).toBe(400);
+  });
+  
   it('Delete the first User', async() => {
     const response = await request(app)
     .delete('/deleteUser/1')
@@ -33,11 +65,5 @@ describe('User', () => {
     expect(response.status).toBe(200);
   });
 
-  it('Delete the first User', async() => {
-    const response = await request(app)
-    .get('/getUsers')
-    .send();
 
-    expect(response.status).toBe(200);
-  });
 });
