@@ -3,42 +3,41 @@ const connection = require('../database/connection');
 module.exports = {
   async index (request, response) {
     const user = await connection('user').select('*');
-    
     return response.json(user);
   },
 
   async create (request, response) {
     const { username, password, email, active } = request.body;
 
-    try { 
+    try {
       await connection('user').insert({
         username,
         password,
         email,
         active
       });
-      } catch (exception) {
-        console.log('Exception: ' + exception);
-        return response.status(400).send();
-      }
-
-      return response.status(204).send();
-    },
-
-    async delete (request, response) { 
-      const { id } = request.params; 
-
-      try {
-        await connection('user').where('id', '=' , id).update({
-          active : false
-        }).then(rows => {
-          if (rows == 0) throw Error('Not found.');
-        });
-      } catch (exception) { 
-        console.log('Exception: ' + exception);
-        return response.status(400).send();
-      }
-
-      return response.status(204).send();
+    } catch (exception) {
+      console.log('Exception: ' + exception);
+      return response.status(400).send();
     }
-}   
+
+    return response.status(204).send();
+  },
+
+  async delete (request, response) {
+    const { id } = request.params;
+
+    try {
+      await connection('user').where('id', '=' , id).update({
+        active : false
+      }).then(rows => {
+        if (rows == 0) throw Error('Not found.');
+      });
+    } catch (exception) {
+      console.log('Exception: ' + exception);
+      return response.status(400).send();
+    }
+
+    return response.status(204).send();
+  }
+}
