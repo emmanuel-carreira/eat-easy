@@ -22,7 +22,7 @@ module.exports = {
         return response.status(400).send();
       }
 
-      return response.status(200).send();
+      return response.status(204).send();
     },
 
     async delete (request, response) {
@@ -37,6 +37,6 @@ module.exports = {
         return response.status(400).send();
       }
         
-      return response.status(200).send();
+      return response.status(204).send();
     }
 }   
