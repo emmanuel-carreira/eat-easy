@@ -35,7 +35,7 @@ describe('User', () => {
       active: true
     });
 
-    expect(response.status).toBe(200);
+    expect(response.status).toBe(204);
   });
 
   it('Get all the users', async() => {
@@ -62,7 +62,7 @@ describe('User', () => {
     .delete('/deleteUser/1')
     .send();
 
-    expect(response.status).toBe(200);
+    expect(response.status).toBe(204);
   });
 
 
