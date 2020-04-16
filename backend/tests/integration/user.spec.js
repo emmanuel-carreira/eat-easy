@@ -16,7 +16,6 @@ describe('User', () => {
     const response = await request(app)
     .post('/createUser')
     .send({
-      username: "",
       password: "#lisiarc",
       email: "lisiarc@hotmail.com",
       active: true
@@ -43,7 +42,7 @@ describe('User', () => {
     .get('/getUsers')
     .send();
     
-    const firstUser = response.data[0];
+    const firstUser = response.body[0];
     expect(firstUser.password).toBe('#lisiarc');
     
     expect(response.status).toBe(200);
