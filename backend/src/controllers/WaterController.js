@@ -12,5 +12,16 @@ module.exports = {
     }
 
     return response.status(204).send();
+  },
+
+  async index (request, response) {
+    const { userId, startDate, endDate } = request.query;
+    const waterEntries = await connection('water')
+      .select('quantity', 'date')
+      .where('userId', userId)
+      .andWhere('date', '>=', startDate)
+      .andWhere('date', '<=', endDate);
+
+    return response.json(waterEntries);
   }
 }

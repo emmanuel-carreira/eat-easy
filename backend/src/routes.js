@@ -10,5 +10,6 @@ routes.delete('/deleteUser/:id', UserController.delete);
 routes.get('/getUsers', UserController.index);
 
 routes.post('/createWater', WaterController.create);
+routes.get('/listWater', WaterController.index);
 
 module.exports = routes;
