@@ -11,5 +11,6 @@ routes.get('/getUsers', UserController.index);
 
 routes.post('/createIngredient', IngredientController.create);
 routes.get('/getIngredient/:id', IngredientController.index);
+routes.get('/listIngredient/', IngredientController.list);
 
 module.exports = routes;

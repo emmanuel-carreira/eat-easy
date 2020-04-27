@@ -26,4 +26,18 @@ module.exports = {
       return response.status(400).send();
     }
   },
+
+  async list(request, response) {
+    const { page = 1 } = request.query;
+
+    const ingredients = await connection('ingredient')
+      .select('*')
+      .limit(10)
+      .offset((page - 1) * 10);
+
+    const [countObject] = await connection('ingredient').count();
+    response.header('X-Total-Count', countObject['count(*)']);
+
+    return response.json(ingredients);
+  }
 }
