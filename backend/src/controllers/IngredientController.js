@@ -14,4 +14,16 @@ module.exports = {
 
     return response.status(201).send();
   },
+
+  async index(request, response) {
+    const { id } = request.params;
+
+    try {
+      const ingredient = await connection('ingredient').select('*').where('id', id);
+      return response.json(ingredient[0]);
+    } catch (exception) {
+      console.log('Exception: ' + exception);
+      return response.status(400).send();
+    }
+  },
 }
