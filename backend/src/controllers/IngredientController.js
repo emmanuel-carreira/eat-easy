@@ -5,7 +5,7 @@ module.exports = {
     const { grams, protein, carbohydrates, fats } = request.body;
 
     try {
-      const calories = fats*9 + (protein + carbohydrates)*4;
+      const calories = parseFloat(fats)*9 + (parseFloat(protein) + parseFloat(carbohydrates))*4;
       await connection('ingredient').insert({ grams, calories, protein, carbohydrates, fats });
     } catch (exception) {
       console.log('Exception: ' + exception);
