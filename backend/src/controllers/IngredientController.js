@@ -15,6 +15,34 @@ module.exports = {
     return response.status(201).send();
   },
 
+  async delete(request, response) {
+    const { id } = request.params;
+
+    try {
+      await connection('ingredient').where('id', id).del();
+    } catch (exception) {
+      console.log('Exception: ' + exception);
+      return response.status(400).send();
+    }
+
+    return response.status(204).send();
+  },
+
+  async update(request, response) {
+    const { id } = request.params;
+    const { grams, protein, carbohydrates, fats } = request.body;
+
+    try {
+      const calories = parseFloat(fats)*9 + (parseFloat(protein) + parseFloat(carbohydrates))*4;
+      await connection('ingredient').where('id', id).update({ grams, calories, protein, carbohydrates, fats });
+    } catch (exception) {
+      console.log('Exception: ' + exception);
+      return response.status(400).send();
+    }
+
+    return response.status(204).send();
+  },
+
   async index(request, response) {
     const { id } = request.params;
 

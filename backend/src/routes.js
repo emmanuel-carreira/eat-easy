@@ -10,6 +10,8 @@ routes.delete('/deleteUser/:id', UserController.delete);
 routes.get('/getUsers', UserController.index);
 
 routes.post('/createIngredient', IngredientController.create);
+routes.delete('/deleteIngredient/:id', IngredientController.delete);
+routes.put('/updateIngredient/:id', IngredientController.update);
 routes.get('/getIngredient/:id', IngredientController.index);
 routes.get('/listIngredient/', IngredientController.list);
 
