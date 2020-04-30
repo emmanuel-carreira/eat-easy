@@ -37,6 +37,19 @@ describe('ingredient', () => {
     expect(response.status).toBe(400);
   });
 
+  it('should NOT create a new ingredient when there are less grams than total macros', async () => {
+    const response = await request(app)
+      .post('/createIngredient')
+      .send({
+        grams: "10",
+        protein: "5",
+        carbohydrates: "5",
+        fats: "5"
+      });
+
+    expect(response.status).toBe(400);
+  });
+
   it('should return data for a specific ingredient', async () => {
     const response = await request(app).get('/getIngredient/1').send();
 
@@ -114,6 +127,19 @@ describe('ingredient', () => {
     expect(ingredient.protein).toBe(10);
     expect(ingredient.carbohydrates).toBe(10);
     expect(ingredient.fats).toBe(10);
+  });
+
+  it('should NOT update an ingredient when there are less grams than total macros', async () => {
+    const response = await request(app)
+      .put('/updateIngredient/1')
+      .send({
+        grams: "20",
+        protein: "10",
+        carbohydrates: "10",
+        fats: "10"
+      });
+
+    expect(response.status).toBe(400);
   });
 
   it('should delete an ingredient', async () => {
