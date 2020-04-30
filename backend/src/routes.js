@@ -1,11 +1,20 @@
 const express = require('express');
 
 const UserController = require('./controllers/UserController');
+const IngredientController = require('./controllers/IngredientController');
 
 const routes = express.Router();
+
+const validateGrams = require('./middlewares/validateGrams');
 
 routes.post('/createUser', UserController.create);
 routes.delete('/deleteUser/:id', UserController.delete);
 routes.get('/getUsers', UserController.index);
+
+routes.post('/createIngredient', validateGrams, IngredientController.create);
+routes.delete('/deleteIngredient/:id', IngredientController.delete);
+routes.put('/updateIngredient/:id', validateGrams, IngredientController.update);
+routes.get('/getIngredient/:id', IngredientController.index);
+routes.get('/listIngredient/', IngredientController.list);
 
 module.exports = routes;
