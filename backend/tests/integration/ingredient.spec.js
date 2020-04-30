@@ -90,4 +90,46 @@ describe('ingredient', () => {
     expect(secondIngredient.carbohydrates).toBe(5);
     expect(secondIngredient.fats).toBe(15);
   });
+
+  it('should update an ingredient', async () => {
+    const responseUpdate = await request(app)
+      .put('/updateIngredient/1')
+      .send({
+        grams: "30",
+        protein: "10",
+        carbohydrates: "10",
+        fats: "10"
+      });
+
+    expect(responseUpdate.status).toBe(204);
+
+    // Confirm ingredient was updated
+    const responseGet = await request(app).get('/getIngredient/1').send();
+
+    expect(responseGet.status).toBe(200);
+
+    const ingredient = responseGet.body;
+    expect(ingredient.grams).toBe(30);
+    expect(ingredient.calories).toBe(170);
+    expect(ingredient.protein).toBe(10);
+    expect(ingredient.carbohydrates).toBe(10);
+    expect(ingredient.fats).toBe(10);
+  });
+
+  it('should delete an ingredient', async () => {
+    const responseDelete = await request(app).delete('/deleteIngredient/1').send();
+
+    expect(responseDelete.status).toBe(204);
+
+    // Confirm deleted ingredient does not exist in the database anymore
+    const responseList = await request(app).get('/listIngredient').send();
+
+    expect(responseList.status).toBe(200);
+
+    const ingredients = responseList.body;
+    expect(ingredients.length).toBe(1);
+
+    const ingredient = ingredients[0];
+    expect(ingredient.id).not.toBe(1);
+  });
 });
